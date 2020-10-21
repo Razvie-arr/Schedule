@@ -1,0 +1,58 @@
+{% load static %}
+{% load bootstrap4 %}
+<html>
+<head>
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+    {% bootstrap_messages %}
+    <link rel="stylesheet" href="{% static 'css/ivtasu.css' %}">
+    <title>
+        Zanyatia
+    </title>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=1212d30c-57c0-4cee-934e-1dff2736ce6b&lang=ru_RU" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+    // Функция ymaps.ready() будет вызвана, когда
+    // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
+    ymaps.ready(init);
+    function init(){
+        // Создание карты.
+        var myMap = new ymaps.Map("map", {
+            // Координаты центра карты.
+            // Порядок по умолчанию: «широта, долгота».
+            // Чтобы не определять координаты центра карты вручную,
+            // воспользуйтесь инструментом Определение координат.
+            center: [55.76, 37.64],
+            // Уровень масштабирования. Допустимые значения:
+            // от 0 (весь мир) до 19.
+            zoom: 7
+        });
+    }
+</script>
+</head>
+<body>
+<div class="container-fluid">
+        <div class="nazv row">
+            <div class="col">
+            <form method="POST">
+                {% csrf_token %}
+                {{form}}
+                <button>Добавить</button>
+            </form>
+        </div>
+        </div>
+        {% for p in perem %}
+    <div class="row"><div class="col">
+            <a href="{% url 'zan_edit' p.id %}">{{ p.name }} ({{ p.lector }})</a>
+        </div> </div>
+        {% endfor %}
+        <div align="center"><a href="raspisanie" class="btn btn-primary" type="submit">Расписание</a></div>
+
+</div>
+<br>
+<div class="aaa">
+<a class="dg-widget-link" href="http://2gis.ru/yakutsk/firm/70000001044366612/center/129.75033760070804,62.03305232003997/zoom/16?utm_medium=widget-source&utm_campaign=firmsonmap&utm_source=bigMap">Посмотреть на карте Якутска</a><div class="dg-widget-link"><a href="http://2gis.ru/yakutsk/firm/70000001044366612/photos/70000001044366612/center/129.75033760070804,62.03305232003997/zoom/17?utm_medium=widget-source&utm_campaign=firmsonmap&utm_source=photos">Фотографии компании</a></div><div class="dg-widget-link"><a href="http://2gis.ru/yakutsk/center/129.750345,62.032867/zoom/16/routeTab/rsType/bus/to/129.750345,62.032867╎Skillometer?utm_medium=widget-source&utm_campaign=firmsonmap&utm_source=route">Найти проезд до Skillometer</a></div><script charset="utf-8" src="https://widgets.2gis.com/js/DGWidgetLoader.js"></script><script charset="utf-8">new DGWidgetLoader({"width":640,"height":600,"borderColor":"#a3a3a3","pos":{"lat":62.03305232003997,"lon":129.75033760070804,"zoom":16},"opt":{"city":"yakutsk"},"org":[{"id":"70000001044366612"}]});</script><noscript style="color:#c00;font-size:16px;font-weight:bold;">Виджет карты использует JavaScript. Включите его в настройках вашего браузера.</noscript>
+</div>
+<div id="map" style="width: 600px; height: 400px" ></div>
+</body>
+</html>
